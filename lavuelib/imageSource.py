@@ -36,6 +36,8 @@ import glob
 from . import dataFetchThread
 from .sardanaUtils import debugmethod, numpyEncoder
 
+import base64
+
 try:
     import requests
     #: (:obj:`bool`) requests imported
@@ -1090,6 +1092,103 @@ class DATAARRAYdecoder(object):
         return self.__value
 
 
+class BVdecorder(object):
+
+    """"BVdata Lima decoder
+    """
+
+    @debugmethod
+    def __init__(self):
+        #: (:obj:`str`) decoder name
+        self.name = "LIMA_BV_DATA"
+        self.format = None
+        self.dtype = None
+
+        self.__value = None
+        self.__data = None
+        self.__header = {}
+
+        self.__fixedHeaderSize = None
+
+    @debugmethod
+    def load(self, data):
+        """  loads encoded data
+
+        :param data: encoded data
+        :type data: [:obj:`str`, :obj:`str`]
+        """
+        logger.debug(
+            "lavuelib.imageSource.BVdecorder.load:  %s" % str(data[0]))
+        self.__data = data
+        self.format = data[0]
+        # Unpack only the fixed header portion
+        self._loadHeader(data[1])
+        self.__value = None
+
+    @debugmethod
+    def _loadHeader(self, headerData):
+        """ loads the image header
+
+        :param headerData: buffer with header data
+        :type headerData: :obj:`str`
+        """
+        hdr = struct.unpack(self.format, headerData)
+        self.__header = {}
+        self.__header['timestamp']          = hdr[0]
+        self.__header['framenb']            = hdr[1]
+        self.__header['X']                  = hdr[2]
+        self.__header['Y']                  = hdr[3]
+        self.__header['I']                  = hdr[4]
+        self.__header['maxI']               = hdr[5]
+        self.__header['roi_top_x']          = hdr[6]
+        self.__header['roi_top_y']          = hdr[7]
+        self.__header['roi_size_getWidth']  = hdr[8]
+        self.__header['roi_size_getHeight'] = hdr[9]
+        self.__header['fwhm_x']             = hdr[10]
+        self.__header['fwhm_y']             = hdr[11]
+        self.__header['prof_x']             = hdr[12]
+        self.__header['prof_y']             = hdr[13]
+        self.__header['jpegData']           = hdr[14]
+
+
+        # Since JPEG images are RGB with 8 bits per channel,
+        # we set the dtype here.
+        self.dtype = 'uint8'
+
+    @debugmethod
+    def decode(self):
+        """ provides the decoded data
+
+        :returns: the decoded data if data was loaded
+        :rtype: :class:`numpy.ndarray`
+        """
+        if not self.__header or not self.__data:
+            return
+        if self.__value is None:
+            decoded = base64.b64decode(self.__header['jpegData'])
+            image = PIL.Image.open(BytesIO(decoded))
+            self.__value = np.transpose(image, (0, 1, 2))
+        return self.__value
+
+    def shape(self):
+        """ provides the data shape
+
+        :returns: the data shape if data was loaded
+        :rtype: :obj:`list` <:obj:`int` >
+        """
+        if self.__header:
+            #ab
+            return [2,self.__header['roi_size_getWidth']]
+
+    def getMetadata(self):
+        meta = self.__header.copy()
+        meta.pop('jpegData', None)
+        for key in ['prof_x', 'prof_y']:
+            if key in meta and isinstance(meta[key], bytes):
+                meta[key] = base64.b64encode(meta[key]).decode('utf-8')
+        return json.dumps(meta)
+
+
 class TangoAttrSource(BaseSource):
 
     """ image source as IMAGE Tango attribute
@@ -1112,6 +1211,7 @@ class TangoAttrSource(BaseSource):
             "LIMA_VIDEO_IMAGE": VDEOdecoder(),
             "VIDEO_IMAGE": VDEOdecoder(),
             "DATA_ARRAY": DATAARRAYdecoder(),
+            "BV_DATA": BVdecorder()
         }
         #: (:dict: <:obj:`str`, :obj:`str`>)
         #:      dictionary of tango decorders
@@ -1180,13 +1280,20 @@ class TangoAttrSource(BaseSource):
                     return (np.transpose(data),
                             '%s  (%s)' % (
                                 self._configuration, str(attr.time)), "")
+                elif avalue[0] is not None and attr.name == 'bvdata':
+                    dec = self.__decoders['BV_DATA']
+                    dec.load(avalue)
+                    shape = dec.shape()
+                    if shape is None or shape[0] <= 0 or shape[1] <= 0:
+                        return None, None, None
+                    return (dec.decode().T,
+                            '%s  (%s)' % (
+                                self._configuration, str(attr.time)),
+                            dec.getMetadata())
                 else:
                     dec = self.__decoders[avalue[0]]
                     dec.load(avalue)
-                    if dec.frameNumber() is not None:
-                        fnumber = dec.frameNumber()
-                    else:
-                        fnumber = ""
+                    fnumber = dec.frameNumber() or ""
                     shape = dec.shape()
                     if shape is None or shape[0] <= 0 or shape[1] <= 0:
                         return None, None, None
@@ -1357,7 +1464,8 @@ class TangoEventsSource(BaseSource):
         self.__decoders = {
             "LIMA_VIDEO_IMAGE": VDEOdecoder(),
             "VIDEO_IMAGE": VDEOdecoder(),
-            "DATA_ARRAY": DATAARRAYdecoder()
+            "DATA_ARRAY": DATAARRAYdecoder(),
+            'BV_DATA': BVdecorder()
         }
         #: (:dict: <:obj:`str`, :obj:`str`>)
         #:      dictionary of tango decorders
@@ -1411,21 +1519,26 @@ class TangoEventsSource(BaseSource):
                                     self._configuration,
                                     str(self.attr.time)),
                                 "")
+                    elif avalue[0] is not None and self.attr.name == 'bvdata':
+                        dec = self.__decoders['BV_DATA']
+                        dec.load(avalue)
+                        shape = dec.shape()
+                        if shape is None or shape[0] <= 0 or shape[1] <= 0:
+                            return None, None, None
+                        return (dec.decode().T,
+                                '%s  (%s)' % (
+                                    self._configuration, str(self.attr.time)),
+                                dec.getMetadata())
                     else:
                         dec = self.__decoders[avalue[0]]
                         dec.load(avalue)
                         shape = dec.shape()
-                        if dec.frameNumber() is not None:
-                            fnumber = dec.frameNumber()
-                        else:
-                            fnumber = ""
                         if shape is None or shape[0] <= 0 or shape[1] <= 0:
                             return None, None, None
                         return (dec.decode().T,
-                                '%s %s (%s)' % (
-                                    self._configuration,
-                                    fnumber,
-                                    str(self.attr.time)), "")
+                                '%s  (%s)' % (
+                                    self._configuration, str(self.attr.time)),
+                                "")
                 else:
                     if self.attr.value is not None:
                         if hasattr(self.attr.value, "size"):
@@ -1656,6 +1769,274 @@ class HTTPSource(BaseSource):
             # print(str(e))
             self._updaterror()
             return False
+
+
+class TCPSource(BaseSource):
+
+    """ image source over a TCP socket
+
+    Expects frames as: JSON header followed by raw bytes (jsonimage/jsonhisto).
+    The header should include at least: width, height, bitDepth, dataSize and
+    may also contain timeAtFrame, frameNumber, etc. Data is buffered and parsed
+    non‑blocking. getDataSection extracts one full header+payload and returns
+    (image, name, metadata_json) where name encodes source, frame/time, and
+    metadata_json is the original header as JSON.
+    """
+
+    @debugmethod
+    def __init__(self, timeout=None):
+        """ constructor
+
+        :param timeout: timeout for setting connection in ms
+        :type timeout: :obj:`int`
+        """
+        BaseSource.__init__(self, timeout)
+        #: (:obj:`socket.socket`) tcp socket
+        self.__socket = None
+        #: (:obj:`str`) tcp host
+        self.__host = None
+        #: (:obj:`int`) tcp port
+        self.__port = None
+        #: (:obj:`str`) display address
+        self.__bindaddress = None
+        #: (:class:`pyqtgraph.QtCore.QMutex`) mutex lock for tcp source
+        self.__mutex = QtCore.QMutex()
+        #: (:obj:`int`) internal counter
+        self.__counter = 0
+        #: (:obj:`bytearray`) accumulated receive buffer
+        self.__recvbuf = bytearray()
+        #: (:obj:`int` or :obj:`None`) expected payload size after header
+        self.__expected_size = None
+        #: (:obj:`dict` or :obj:`None`) last parsed header
+        self.__last_header = None
+
+    def __make_name(self, header):
+        """Compose a human-friendly frame name from header."""
+        fnum = header.get('frameNumber')
+        tstamp = header.get('timeAtFrame')
+        fnum = '' if fnum is None else fnum
+        tstamp = '' if tstamp is None else tstamp
+        base = self.__bindaddress or ''
+        return '%s %s (%s)' % (base, fnum, tstamp)
+
+    @debugmethod
+    def getDataSection(self):
+        """Parse a single JSON-line header followed by raw payload from buffer.
+
+        Matches producer protocol: one JSON header per line (LF-terminated),
+        followed by exactly `dataSize` bytes of image data. Returns a tuple
+        (image, name, jmetadata) if a complete frame is available; otherwise
+        (None, None, None). Unconsumed bytes remain in the buffer.
+        """
+        # If we are not yet expecting a payload, try to read one full header line
+        while self.__expected_size is None:
+            if not self.__recvbuf:
+                return None, None, None
+            # Find newline that terminates the JSON header line
+            try:
+                nl = self.__recvbuf.index(ord('\n'))
+            except ValueError:
+                # No full line yet
+                return None, None, None
+            line = bytes(self.__recvbuf[:nl]).strip()
+            # consume the line and trailing LF
+            del self.__recvbuf[:nl+1]
+            if not line:
+                # skip empty lines
+                continue
+            try:
+                header = json.loads(line.decode('utf-8'))
+                if not isinstance(header, dict):
+                    continue
+            except Exception:
+                # malformed header, skip to next line
+                continue
+            # Validate fields as in the socket_reader implementation
+            width = int(header.get('width', 0) or 0)
+            height = int(header.get('height', 0) or 0)
+            bit_depth = int(header.get('bitDepth', 0) or 0)
+            data_size = int(header.get('dataSize', 0) or 0)
+            if data_size <= 0 or width <= 0 or height <= 0 or bit_depth not in (16, 32):
+                # ignore this header; continue scanning
+                continue
+            self.__last_header = header
+            self.__expected_size = data_size
+            # fall through to payload check below
+
+        # If we know expected payload size, see if we have enough bytes
+        if self.__expected_size is None or self.__expected_size <= 0:
+            # Malformed header; reset state
+            self.__last_header = None
+            self.__expected_size = None
+            return None, None, None
+
+        if len(self.__recvbuf) < self.__expected_size:
+            return None, None, None
+
+        # Extract payload
+        payload = bytes(self.__recvbuf[:self.__expected_size])
+        del self.__recvbuf[:self.__expected_size]
+        header = self.__last_header or {}
+
+        # Reset state for next frame
+        self.__last_header = None
+        self.__expected_size = None
+
+        # Decode payload into numpy array using header info
+        w = int(header.get('width', 0) or 0)
+        h = int(header.get('height', 0) or 0)
+        if bit_depth == 16:
+            dtype = '<u2'
+            bytes_per_pixel = 2
+        else:  # bit_depth == 32
+            dtype = '<u4'
+            bytes_per_pixel = 4
+
+        try:
+            arr = np.frombuffer(payload, dtype=dtype)
+            # If width/height missing or mismatched, infer from size
+            shape = (h, w)
+            arr = arr.reshape(shape)
+        except Exception:
+            try:
+                arr = np.frombuffer(payload, dtype=dtype)
+            except Exception:
+                arr = None
+
+        # Build metadata JSON string
+        name = self.__make_name(header)
+        jmetadata = ""
+        try:
+            jmetadata = json.dumps(header, cls=numpyEncoder)
+        except Exception:
+            pass
+
+        if arr is None or (hasattr(arr, 'size') and arr.size == 0):
+            return ("", "", jmetadata)
+        return (np.transpose(arr), name, jmetadata)
+
+    @debugmethod
+    def setConfiguration(self, configuration):
+        """ set configuration
+
+        Expected formats:
+          - "host:port"
+
+        :param configuration: configuration string
+        :type configuration: :obj:`str`
+        """
+        if self._configuration != configuration:
+            self._configuration = configuration
+            self._initiated = False
+            try:
+                conf = str(configuration).split(":", 1)
+                self.__host = conf[0]
+                self.__port = int(conf[1]) if len(conf) > 1 else None
+                if self.__host and self.__port is not None:
+                    self.__bindaddress = (
+                        "tcp://" + str(self.__host) + ":" + str(self.__port))
+                else:
+                    self.__bindaddress = None
+            except Exception as e:
+                logger.warning(str(e))
+                self.__host, self.__port, self.__bindaddress = None, None, None
+
+    @debugmethod
+    def getData(self):
+        """ provides image name, image data and metadata
+
+        :returns: image data, image name, metadata json
+        :rtype: (:obj:`numpy.ndarray` or :obj:`None`, :obj:`str` or :obj:`None`, :obj:`str` or :obj:`None`)
+        """
+        # Attempt lazy reconnect if not connected but configuration exists
+        if self.__socket is None:
+            if self._configuration and (self.__host is None or self.__port is None):
+                self.setConfiguration(self._configuration)
+            # Try to connect silently; if it fails, just report no data
+            ok = False
+            try:
+                ok = self.connect()
+            except Exception:
+                ok = False
+            if not ok:
+                return None, None, None
+        try:
+            with QtCore.QMutexLocker(self.__mutex):
+                # Drain available bytes without blocking
+                while True:
+                    try:
+                        chunk = self.__socket.recv(65536)
+                        if not chunk:
+                            # connection closed by peer -> reset and try later
+                            try:
+                                self.__socket.close()
+                            except Exception:
+                                pass
+                            self.__socket = None
+                            self.__expected_size = None
+                            self.__last_header = None
+                            return None, None, None
+                        self.__recvbuf.extend(chunk)
+                        # Try to parse as we accumulate
+                        img, name, meta = self.getDataSection()
+                        if img is not None or name is not None or meta is not None:
+                            return img, name, meta
+                    except BlockingIOError:
+                        break
+                # After draining input, one more parse attempt in case
+                img, name, meta = self.getDataSection()
+                if img is not None or name is not None or meta is not None:
+                    return img, name, meta
+            return None, None, None
+        except Exception as e:
+            return str(e), "__ERROR__", ""
+
+    @debugmethod
+    def connect(self):
+        """ connects the source
+        """
+        try:
+            if not self.__host or self.__port is None:
+                if self._configuration:
+                    self.setConfiguration(self._configuration)
+            if self.__socket:
+                self.disconnect()
+            with QtCore.QMutexLocker(self.__mutex):
+                self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                if self._timeout is not None:
+                    self.__socket.settimeout(self._timeout / 1000.0)
+                self.__socket.setblocking(False)
+                try:
+                    self.__socket.connect((self.__host, int(self.__port)))
+                except (BlockingIOError, InterruptedError):
+                    # Non-blocking connect in progress
+                    pass
+                self._initiated = True
+                self.__counter = 0
+            return True
+        except Exception as e:
+            logger.warning(str(e))
+            self._updaterror()
+            return False
+
+    @debugmethod
+    def disconnect(self):
+        """ disconnects the source
+        """
+        try:
+            with QtCore.QMutexLocker(self.__mutex):
+                if self.__socket:
+                    try:
+                        self.__socket.shutdown(socket.SHUT_RDWR)
+                    except Exception:
+                        pass
+                    try:
+                        self.__socket.close()
+                    except Exception:
+                        pass
+                self.__socket = None
+        except Exception:
+            pass
 
 
 class ZMQSource(BaseSource):
