@@ -49,6 +49,10 @@ _httpformclass, _httpbaseclass = uic.loadUiType(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
                  "ui", "HTTPSourceWidget.ui"))
 
+_tcpformclass, _tcpbaseclass = uic.loadUiType(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 "ui", "TCPSourceWidget.ui"))
+
 _hidraformclass, _hidrabaseclass = uic.loadUiType(
     os.path.join(os.path.dirname(os.path.abspath(__file__)),
                  "ui", "HidraSourceWidget.ui"))
@@ -93,6 +97,7 @@ __all__ = [
     'SourceBaseWidget',
     'HidraSourceWidget',
     'HTTPSourceWidget',
+    'TCPSourceWidget',
     'TangoAttrSourceWidget',
     'TangoEventsSourceWidget',
     'TangoFileSourceWidget',
@@ -540,6 +545,157 @@ class HTTPSourceWidget(SourceBaseWidget):
         return re.sub("[^a-zA-Z0-9_]+", "_", label)
 
 
+class TCPSourceWidget(SourceBaseWidget):
+
+    """ TCP socket source widget """
+
+    #: (:obj:`str`) source name
+    name = "TCP Socket"
+    #: (:obj:`str`) source alias
+    alias = "tcp"
+    #: (:obj:`tuple` <:obj:`str`>) capitalized required packages
+    requires = ()
+    #: (:obj:`str`) datasource class name
+    datasource = "TCPSource"
+
+    def __init__(self, sourceid=0, parent=None):
+        """ constructor
+
+        :param sourceid: source id
+        :type sourceid: :obj:`int`
+        :param parent: parent object
+        :type parent: :class:`pyqtgraph.QtCore.QObject`
+        """
+        SourceBaseWidget.__init__(self, sourceid, parent)
+
+        self._ui = _tcpformclass()
+        self._ui.setupUi(self)
+
+        #: (:obj:`list` <:obj:`str`>) subwidget object names
+        self.widgetnames = ["tcpLabel", "tcpComboBox"]
+
+        #: (:obj:`dict` <:obj:`str`, :obj:`str`>) dictionary with
+        #:                     (label, host:port) items
+        self.__tcpaddrs = {}
+        #: (:obj:`list` <:obj:`str`>) user host:port entries
+        self.__useraddrs = []
+
+        self._detachWidgets()
+
+        #: (:obj:`str`) default tip
+        self.__defaulttip = self._ui.tcpComboBox.toolTip()
+
+        self._connectComboBox(self._ui.tcpComboBox)
+        self._ui.tcpComboBox.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        """ event filter
+
+        :param obj: qt object
+        :type obj: :class: `pyqtgraph.QtCore.QObject`
+        :param event: qt event
+        :type event: :class: `pyqtgraph.QtCore.QEvent`
+        :returns: status flag
+        :rtype: :obj:`bool`
+        """
+        return self.eventObjectFilter(
+            event,
+            combobox=self._ui.tcpComboBox,
+            varname="tcpaddresses",
+            atdict=self.__tcpaddrs,
+            atlist=self.__useraddrs
+        )
+
+    @QtCore.pyqtSlot()
+    def updateButton(self):
+        """ update slot for TCP socket source
+        """
+        if not self.active:
+            return
+        addr = self.configuration()
+        if not addr:
+            self.buttonEnabled.emit(False)
+        else:
+            self.buttonEnabled.emit(True)
+            self.sourceLabelChanged.emit()
+        self._ui.tcpComboBox.setToolTip(addr or self.__defaulttip)
+
+    def configuration(self):
+        """ provides configuration for the current image source
+
+        :returns configuration: configuration string
+        :rtype configuration: :obj:`str`
+        """
+        addr = str(self._ui.tcpComboBox.currentText()).strip()
+        if addr in self.__tcpaddrs.keys():
+            addr = str(self.__tcpaddrs[addr]).strip()
+        # accept host:port only
+        if ":" not in addr:
+            return None
+        return addr
+
+    def updateMetaData(self, tcpaddresses=None, **kargs):
+        """ update source input parameters
+
+        :param tcpaddresses: json dictionary with
+                              (label, host:port) items
+        :type tcpaddresses: :obj:`str`
+        :param kargs:  source widget input parameter dictionary
+        :type kargs: :obj:`dict` < :obj:`str`, :obj:`any`>
+        """
+        if tcpaddresses is not None:
+            self.__tcpaddrs = json.loads(tcpaddresses)
+            self.updateComboBox()
+        self.sourceLabelChanged.emit()
+
+    @QtCore.pyqtSlot()
+    def updateComboBox(self):
+        """ updates ComboBox
+        """
+        self._updateComboBox(
+            self._ui.tcpComboBox, self.__tcpaddrs, self.__useraddrs)
+        self.updateButton()
+
+    def configure(self, configuration):
+        """ set configuration for the current image source
+
+        :param configuration: configuration string
+        :type configuration: :obj:`str`
+        """
+        iid = self._ui.tcpComboBox.findText(configuration)
+        if iid == -1:
+            self._ui.tcpComboBox.addItem(configuration)
+            iid = self._ui.tcpComboBox.findText(configuration)
+        self._ui.tcpComboBox.setCurrentIndex(iid)
+
+    def connectWidget(self):
+        """ connects widget
+        """
+        self._connected = True
+        self._ui.tcpComboBox.lineEdit().setReadOnly(True)
+        self._ui.tcpComboBox.setEnabled(False)
+        current = str(self._ui.tcpComboBox.currentText()).strip()
+        addrs = self.__tcpaddrs.keys()
+        if current not in addrs and current not in self.__useraddrs:
+            self.__useraddrs.append(current)
+            self._updateComboBox(
+                self._ui.tcpComboBox, self.__tcpaddrs, self.__useraddrs)
+
+    def disconnectWidget(self):
+        """ disconnects widget
+        """
+        self._connected = False
+        self._ui.tcpComboBox.lineEdit().setReadOnly(False)
+        self._ui.tcpComboBox.setEnabled(True)
+
+    def label(self):
+        """ return a label of the current detector
+
+        :return: label of the current detector
+        :rtype: :obj:`str`
+        """
+        label = str(self._ui.tcpComboBox.currentText()).strip()
+        return re.sub("[^a-zA-Z0-9_]+", "_", label)
 class HidraSourceWidget(SourceBaseWidget):
 
     """ test source widget """
