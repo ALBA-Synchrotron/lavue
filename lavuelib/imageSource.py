@@ -1532,13 +1532,15 @@ class TangoEventsSource(BaseSource):
                     else:
                         dec = self.__decoders[avalue[0]]
                         dec.load(avalue)
+                        fnumber = dec.frameNumber() or ""
                         shape = dec.shape()
                         if shape is None or shape[0] <= 0 or shape[1] <= 0:
                             return None, None, None
                         return (dec.decode().T,
-                                '%s  (%s)' % (
-                                    self._configuration, str(self.attr.time)),
-                                "")
+                                '%s %s (%s)' % (
+                                    self._configuration,
+                                    fnumber,
+                                    str(self.attr.time)), "")
                 else:
                     if self.attr.value is not None:
                         if hasattr(self.attr.value, "size"):
