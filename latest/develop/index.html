@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Guide &#8212; LaVue  documentation</title>
+    <title>Developer Guide &#8212; LaVue 3.16.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=ffd7f65b" />
     
-    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/documentation_options.js?v=075e253b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../userfunctionplugins.html" title="User Function plugins"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Developer Guide</a></li> 
       </ul>
     </div>  
@@ -212,6 +212,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.toolpollinginterval"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.toolpollinginterval</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.toolrefreshtime"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.toolrefreshtime</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.toolwidgets"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.toolwidgets</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.triggeredevents"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.triggeredevents</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.typedrois"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.typedrois</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.userfunctions"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.userfunctions</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.configDialog.ConfigDialog.zeromask"><code class="docutils literal notranslate"><span class="pre">ConfigDialog.zeromask</span></code></a></li>
@@ -500,11 +501,13 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.dtype"><code class="docutils literal notranslate"><span class="pre">FTField.dtype</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.grow"><code class="docutils literal notranslate"><span class="pre">FTField.grow()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.read"><code class="docutils literal notranslate"><span class="pre">FTField.read()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.read_chunk"><code class="docutils literal notranslate"><span class="pre">FTField.read_chunk()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.refresh"><code class="docutils literal notranslate"><span class="pre">FTField.refresh()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.reopen"><code class="docutils literal notranslate"><span class="pre">FTField.reopen()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.shape"><code class="docutils literal notranslate"><span class="pre">FTField.shape</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.size"><code class="docutils literal notranslate"><span class="pre">FTField.size</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.write"><code class="docutils literal notranslate"><span class="pre">FTField.write()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTField.write_chunk"><code class="docutils literal notranslate"><span class="pre">FTField.write_chunk()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.FTFile"><code class="docutils literal notranslate"><span class="pre">FTFile</span></code></a><ul>
@@ -561,6 +564,7 @@
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.get_links"><code class="docutils literal notranslate"><span class="pre">get_links()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.memory_file"><code class="docutils literal notranslate"><span class="pre">memory_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.open_file"><code class="docutils literal notranslate"><span class="pre">open_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.setwriter"><code class="docutils literal notranslate"><span class="pre">setwriter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.filewriter.target_field_view"><code class="docutils literal notranslate"><span class="pre">target_field_view()</span></code></a></li>
@@ -666,11 +670,13 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.name"><code class="docutils literal notranslate"><span class="pre">H5CppField.name</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.path"><code class="docutils literal notranslate"><span class="pre">H5CppField.path</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.read"><code class="docutils literal notranslate"><span class="pre">H5CppField.read()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.read_chunk"><code class="docutils literal notranslate"><span class="pre">H5CppField.read_chunk()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.refresh"><code class="docutils literal notranslate"><span class="pre">H5CppField.refresh()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.reopen"><code class="docutils literal notranslate"><span class="pre">H5CppField.reopen()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.shape"><code class="docutils literal notranslate"><span class="pre">H5CppField.shape</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.size"><code class="docutils literal notranslate"><span class="pre">H5CppField.size</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.write"><code class="docutils literal notranslate"><span class="pre">H5CppField.write()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppField.write_chunk"><code class="docutils literal notranslate"><span class="pre">H5CppField.write_chunk()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.H5CppFile"><code class="docutils literal notranslate"><span class="pre">H5CppFile</span></code></a><ul>
@@ -735,6 +741,7 @@
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.is_vds_supported"><code class="docutils literal notranslate"><span class="pre">is_vds_supported()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.memory_file"><code class="docutils literal notranslate"><span class="pre">memory_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.nptype"><code class="docutils literal notranslate"><span class="pre">nptype()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.open_file"><code class="docutils literal notranslate"><span class="pre">open_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5cppwriter.target_field_view"><code class="docutils literal notranslate"><span class="pre">target_field_view()</span></code></a></li>
@@ -774,11 +781,13 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.grow"><code class="docutils literal notranslate"><span class="pre">H5PYField.grow()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.is_valid"><code class="docutils literal notranslate"><span class="pre">H5PYField.is_valid</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.read"><code class="docutils literal notranslate"><span class="pre">H5PYField.read()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.read_chunk"><code class="docutils literal notranslate"><span class="pre">H5PYField.read_chunk()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.refresh"><code class="docutils literal notranslate"><span class="pre">H5PYField.refresh()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.reopen"><code class="docutils literal notranslate"><span class="pre">H5PYField.reopen()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.shape"><code class="docutils literal notranslate"><span class="pre">H5PYField.shape</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.size"><code class="docutils literal notranslate"><span class="pre">H5PYField.size</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.write"><code class="docutils literal notranslate"><span class="pre">H5PYField.write()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYField.write_chunk"><code class="docutils literal notranslate"><span class="pre">H5PYField.write_chunk()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.H5PYFile"><code class="docutils literal notranslate"><span class="pre">H5PYFile</span></code></a><ul>
@@ -839,6 +848,7 @@
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.is_vds_supported"><code class="docutils literal notranslate"><span class="pre">is_vds_supported()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.memory_file"><code class="docutils literal notranslate"><span class="pre">memory_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.nptype"><code class="docutils literal notranslate"><span class="pre">nptype()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.open_file"><code class="docutils literal notranslate"><span class="pre">open_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.h5pywriter.target_field_view"><code class="docutils literal notranslate"><span class="pre">target_field_view()</span></code></a></li>
@@ -997,6 +1007,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.extract"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.extract()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.findImageFields"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.findImageFields()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.frombuffer"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.frombuffer()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.fromchunk"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.fromchunk()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.getFrameCount"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.getFrameCount()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.getImage"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.getImage()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.getMetaData"><code class="docutils literal notranslate"><span class="pre">NexusFieldHandler.getMetaData()</span></code></a></li>
@@ -1031,6 +1042,14 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.ASAPOSource.getData"><code class="docutils literal notranslate"><span class="pre">ASAPOSource.getData()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.ASAPOSource.getMetaData"><code class="docutils literal notranslate"><span class="pre">ASAPOSource.getMetaData()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.ASAPOSource.setConfiguration"><code class="docutils literal notranslate"><span class="pre">ASAPOSource.setConfiguration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder"><code class="docutils literal notranslate"><span class="pre">BVdecorder</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder.decode"><code class="docutils literal notranslate"><span class="pre">BVdecorder.decode()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder.getMetadata"><code class="docutils literal notranslate"><span class="pre">BVdecorder.getMetadata()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder.load"><code class="docutils literal notranslate"><span class="pre">BVdecorder.load()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder.name"><code class="docutils literal notranslate"><span class="pre">BVdecorder.name</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BVdecorder.shape"><code class="docutils literal notranslate"><span class="pre">BVdecorder.shape()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageSource.BaseSource"><code class="docutils literal notranslate"><span class="pre">BaseSource</span></code></a><ul>
@@ -1199,6 +1218,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.image"><code class="docutils literal notranslate"><span class="pre">ImageWidget.image()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.imageName"><code class="docutils literal notranslate"><span class="pre">ImageWidget.imageName()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.imagePlotted"><code class="docutils literal notranslate"><span class="pre">ImageWidget.imagePlotted</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.imageSourceChanged"><code class="docutils literal notranslate"><span class="pre">ImageWidget.imageSourceChanged</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.levelMode"><code class="docutils literal notranslate"><span class="pre">ImageWidget.levelMode()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.maskIndices"><code class="docutils literal notranslate"><span class="pre">ImageWidget.maskIndices()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.maskValue"><code class="docutils literal notranslate"><span class="pre">ImageWidget.maskValue()</span></code></a></li>
@@ -1270,6 +1290,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setOverflowValueIndices"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setOverflowValueIndices()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setSardanaUtils"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setSardanaUtils()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setScalingType"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setScalingType()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setSourceConfiguration"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setSourceConfiguration()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setStatsWOScaling"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setStatsWOScaling()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setTangoClient"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setTangoClient()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.setTicks"><code class="docutils literal notranslate"><span class="pre">ImageWidget.setTicks()</span></code></a></li>
@@ -1284,6 +1305,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.showCurrentTool"><code class="docutils literal notranslate"><span class="pre">ImageWidget.showCurrentTool()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.showDoorError"><code class="docutils literal notranslate"><span class="pre">ImageWidget.showDoorError()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.showTool"><code class="docutils literal notranslate"><span class="pre">ImageWidget.showTool()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.sourceConfiguration"><code class="docutils literal notranslate"><span class="pre">ImageWidget.sourceConfiguration()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.stopSignal"><code class="docutils literal notranslate"><span class="pre">ImageWidget.stopSignal</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.tool"><code class="docutils literal notranslate"><span class="pre">ImageWidget.tool()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.imageWidget.ImageWidget.toolConfiguration"><code class="docutils literal notranslate"><span class="pre">ImageWidget.toolConfiguration()</span></code></a></li>
@@ -1405,7 +1427,6 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.liveViewer.PartialData.y"><code class="docutils literal notranslate"><span class="pre">PartialData.y</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.liveViewer.processEvents"><code class="docutils literal notranslate"><span class="pre">processEvents()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.liveViewer.setLoggerLevel"><code class="docutils literal notranslate"><span class="pre">setLoggerLevel()</span></code></a></li>
 </ul>
 </li>
@@ -1706,6 +1727,7 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.toolrefreshtime"><code class="docutils literal notranslate"><span class="pre">Settings.toolrefreshtime</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.toolwidgets"><code class="docutils literal notranslate"><span class="pre">Settings.toolwidgets</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.triggeredevents"><code class="docutils literal notranslate"><span class="pre">Settings.triggeredevents</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.triggeredevents_current"><code class="docutils literal notranslate"><span class="pre">Settings.triggeredevents_current</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.typedrois"><code class="docutils literal notranslate"><span class="pre">Settings.typedrois</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.updateAISettings"><code class="docutils literal notranslate"><span class="pre">Settings.updateAISettings()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.settings.Settings.updateDetectorParameters"><code class="docutils literal notranslate"><span class="pre">Settings.updateDetectorParameters()</span></code></a></li>
@@ -2095,6 +2117,17 @@
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.IntensityToolWidget.signal2slot"><code class="docutils literal notranslate"><span class="pre">IntensityToolWidget.signal2slot</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.activate"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.activate()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.alias"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.alias</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.configuration"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.configuration()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.configure"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.configure()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.deactivate"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.deactivate()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.name"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.name</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.requires"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.requires</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LimaCCDsToolWidget.signal2slot"><code class="docutils literal notranslate"><span class="pre">LimaCCDsToolWidget.signal2slot</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LineCutToolWidget"><code class="docutils literal notranslate"><span class="pre">LineCutToolWidget</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LineCutToolWidget.activate"><code class="docutils literal notranslate"><span class="pre">LineCutToolWidget.activate()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="lavuelib/lavuelib.html#lavuelib.toolWidget.LineCutToolWidget.afterplot"><code class="docutils literal notranslate"><span class="pre">LineCutToolWidget.afterplot()</span></code></a></li>
@@ -2288,18 +2321,24 @@
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v3.16.0/index.html">v3.16.0</a></li>
+      <li><a class="reference external" href="../index/../../v3.15.0/index.html">v3.15.0</a></li>
+      <li><a class="reference external" href="../index/../../v3.14.0/index.html">v3.14.0</a></li>
+      <li><a class="reference external" href="../index/../../v3.13.1/index.html">v3.13.1</a></li>
+      <li><a class="reference external" href="../index/../../v3.12.0/index.html">v3.12.0</a></li>
+      <li><a class="reference external" href="../index/../../v3.11.1/index.html">v3.11.1</a></li>
+      <li><a class="reference external" href="../index/../../v3.10.0/index.html">v3.10.0</a></li>
+      <li><a class="reference external" href="../index/../../v3.9.0/index.html">v3.9.0</a></li>
       <li><a class="reference external" href="../index/../../v3.8.0/index.html">v3.8.0</a></li>
       <li><a class="reference external" href="../index/../../v3.7.0/index.html">v3.7.0</a></li>
       <li><a class="reference external" href="../index/../../v3.6.0/index.html">v3.6.0</a></li>
       <li><a class="reference external" href="../index/../../v3.5.4/index.html">v3.5.4</a></li>
-      <li><a class="reference external" href="../index/../../v3.5.3/index.html">v3.5.3</a></li>
       <li><a class="reference external" href="../index/../../v3.4.1/index.html">v3.4.1</a></li>
       <li><a class="reference external" href="../index/../../v3.3.1/index.html">v3.3.1</a></li>
       <li><a class="reference external" href="../index/../../v3.2.0/index.html">v3.2.0</a></li>
       <li><a class="reference external" href="../index/../../v3.1.0/index.html">v3.1.0</a></li>
       <li><a class="reference external" href="../index/../../v3.0.0/index.html">v3.0.0</a></li>
       <li><a class="reference external" href="../index/../../v2.99.1/index.html">v2.99.1</a></li>
-      <li><a class="reference external" href="../index/../../v2.99.0/index.html">v2.99.0</a></li>
       <li><a class="reference external" href="../index/../../v2.98.2/index.html">v2.98.2</a></li>
       <li><a class="reference external" href="../index/../../v2.97.0/index.html">v2.97.0</a></li>
       <li><a class="reference external" href="../index/../../v2.96.0/index.html">v2.96.0</a></li>
@@ -2351,7 +2390,7 @@
         <li class="right" >
           <a href="../userfunctionplugins.html" title="User Function plugins"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Developer Guide</a></li> 
       </ul>
     </div>

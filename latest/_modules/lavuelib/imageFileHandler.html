@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lavuelib.imageFileHandler &#8212; LaVue  documentation</title>
+    <title>lavuelib.imageFileHandler &#8212; LaVue 3.16.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=ffd7f65b" />
     
-    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -29,7 +29,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.imageFileHandler</a></li> 
       </ul>
@@ -173,6 +173,69 @@
                 <span class="c1">#                % (fname, str(e)))</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fl</span><span class="o">.</span><span class="n">root</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NexusFieldHandler.fromchunk">
+<a class="viewcode-back" href="../../develop/lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.fromchunk">[docs]</a>
+    <span class="k">def</span> <span class="nf">fromchunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">membuffer</span><span class="p">,</span> <span class="n">filterid</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;chunk&quot;</span><span class="p">,</span>
+                  <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; constructor</span>
+
+<span class="sd">        :param membuffer: memory buffer</span>
+<span class="sd">        :type membuffer: :obj:`bytes` or :obj:`io.BytesIO`</span>
+<span class="sd">        :param fname: file name</span>
+<span class="sd">        :type fname: :obj:`str`</span>
+<span class="sd">        :param writer: h5 writer module: &quot;h5py&quot; or &quot;h5py&quot;</span>
+<span class="sd">        :type writer: :obj:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__fname</span> <span class="o">=</span> <span class="n">fname</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;h5cpp&quot;</span> <span class="ow">in</span> <span class="n">WRITERS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> \
+               <span class="n">WRITERS</span><span class="p">[</span><span class="s2">&quot;h5cpp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">is_image_file_supported</span><span class="p">():</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;h5cpp&quot;</span>
+            <span class="k">elif</span> <span class="s2">&quot;h5py&quot;</span> <span class="ow">in</span> <span class="n">WRITERS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> \
+                 <span class="n">WRITERS</span><span class="p">[</span><span class="s2">&quot;h5py&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">is_image_file_supported</span><span class="p">():</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;h5py&quot;</span>
+            <span class="k">elif</span> <span class="s2">&quot;h5cpp&quot;</span> <span class="ow">in</span> <span class="n">WRITERS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;h5cpp&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">writer</span> <span class="o">=</span> <span class="s2">&quot;h5py&quot;</span>
+        <span class="k">if</span> <span class="n">writer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">WRITERS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Writer &#39;</span><span class="si">%s</span><span class="s2">&#39; cannot be opened&quot;</span> <span class="o">%</span> <span class="n">writer</span><span class="p">)</span>
+        <span class="n">wrmodule</span> <span class="o">=</span> <span class="n">WRITERS</span><span class="p">[</span><span class="n">writer</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__fl</span> <span class="o">=</span> <span class="n">filewriter</span><span class="o">.</span><span class="n">memory_file</span><span class="p">(</span>
+                <span class="n">fname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__fname</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">wrmodule</span><span class="p">,</span>
+                <span class="n">libver</span><span class="o">=</span><span class="s1">&#39;latest&#39;</span><span class="p">,</span>
+                <span class="n">swmr</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">writer</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;h5py&quot;</span><span class="p">,</span> <span class="s2">&quot;h5cpp&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__fl</span> <span class="o">=</span> <span class="n">filewriter</span><span class="o">.</span><span class="n">memory_file</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">wrmodule</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;File &#39;</span><span class="si">%s</span><span class="s2">&#39; cannot be loaded </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__fname</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fl</span><span class="o">.</span><span class="n">root</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">membuffer</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;ndarray&quot;</span><span class="p">:</span>
+            <span class="n">npdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">membuffer</span><span class="p">[:])</span>
+            <span class="c1"># npdata = np.array(membuffer[:], dtype=&quot;uint8&quot;)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">membuffer</span><span class="p">,</span> <span class="s2">&quot;getbuffer&quot;</span><span class="p">):</span>
+                <span class="n">membuffer</span> <span class="o">=</span> <span class="n">membuffer</span><span class="o">.</span><span class="n">getbuffer</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">membuffer</span><span class="p">,</span> <span class="s2">&quot;getvalue&quot;</span><span class="p">):</span>
+                <span class="n">membuffer</span> <span class="o">=</span> <span class="n">membuffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">npdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">membuffer</span><span class="p">[:],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">npdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">membuffer</span><span class="p">[:],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">dfilter</span> <span class="o">=</span> <span class="n">wrmodule</span><span class="o">.</span><span class="n">data_filter</span><span class="p">(</span><span class="n">filterid</span><span class="o">=</span><span class="n">filterid</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+        <span class="n">cfield</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">create_field</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+                                          <span class="n">dfilter</span><span class="o">=</span><span class="n">dfilter</span><span class="p">)</span>
+        <span class="n">cfield</span><span class="o">.</span><span class="n">write_chunk</span><span class="p">(</span><span class="n">npdata</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span></div>
+
 
 <div class="viewcode-block" id="NexusFieldHandler.frombuffer">
 <a class="viewcode-back" href="../../develop/lavuelib/lavuelib.html#lavuelib.imageFileHandler.NexusFieldHandler.frombuffer">[docs]</a>
@@ -1117,18 +1180,24 @@
       <li><a class="reference external" href="../../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../../index/../../v3.16.0/index.html">v3.16.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.15.0/index.html">v3.15.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.14.0/index.html">v3.14.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.13.1/index.html">v3.13.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.12.0/index.html">v3.12.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.11.1/index.html">v3.11.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.10.0/index.html">v3.10.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.9.0/index.html">v3.9.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.8.0/index.html">v3.8.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.7.0/index.html">v3.7.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.6.0/index.html">v3.6.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.5.4/index.html">v3.5.4</a></li>
-      <li><a class="reference external" href="../../index/../../v3.5.3/index.html">v3.5.3</a></li>
       <li><a class="reference external" href="../../index/../../v3.4.1/index.html">v3.4.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.3.1/index.html">v3.3.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.2.0/index.html">v3.2.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.1.0/index.html">v3.1.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.0.0/index.html">v3.0.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.99.1/index.html">v2.99.1</a></li>
-      <li><a class="reference external" href="../../index/../../v2.99.0/index.html">v2.99.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.98.2/index.html">v2.98.2</a></li>
       <li><a class="reference external" href="../../index/../../v2.97.0/index.html">v2.97.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.96.0/index.html">v2.96.0</a></li>
@@ -1174,7 +1243,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.imageFileHandler</a></li> 
       </ul>

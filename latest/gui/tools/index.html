@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Specialized Tools &#8212; LaVue  documentation</title>
+    <title>Specialized Tools &#8212; LaVue 3.16.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=ffd7f65b" />
     
-    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../plot.html" title="2D Plot"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">GUI User Guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Specialized Tools</a></li> 
       </ul>
@@ -67,6 +67,7 @@
 <li><p><a class="reference internal" href="diffractogram.html#diffractogram"><span class="std std-ref">Diffractogram</span></a> - shows a result of azimuth integration on 1d plot</p></li>
 <li><p><a class="reference internal" href="twodfit.html#twodfit"><span class="std std-ref">TwoD-Fit</span></a> - fits two-dimensional  function tohe the current raw image</p></li>
 <li><p><a class="reference internal" href="centercheck.html#centercheck"><span class="std std-ref">CenterCheck</span></a> - checks image centers with 1d-plot symetric radial line cuts</p></li>
+<li><p><a class="reference internal" href="limaccds.html#limaccds"><span class="std std-ref">LimaCCDs</span></a> - controls LimaCCDs video mode, exposure, gain and ROI</p></li>
 </ul>
 <p>The <strong>configuration</strong> of tools can be set with a JSON dictionary passed in the  <code class="docutils literal notranslate"><span class="pre">--tool-configuration</span></code>  option in command line or as a <code class="docutils literal notranslate"><span class="pre">toolconfig</span></code> variable in the <code class="docutils literal notranslate"><span class="pre">LavueState</span></code> attribute of <a class="reference internal" href="../../lavuecontroller.html#lavuecontroller"><span class="std std-ref">LaVueController server</span></a>, e.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tango</span>
@@ -94,6 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="centercheck.html">CenterCheck Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twodfit.html">TwoDFit Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qroiproj.html">Q+ROI+Proj Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="limaccds.html">LimaCCDs Tool</a></li>
 </ul>
 </div>
 </section>
@@ -131,18 +133,24 @@
       <li><a class="reference external" href="../../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../../index/../../v3.16.0/index.html">v3.16.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.15.0/index.html">v3.15.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.14.0/index.html">v3.14.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.13.1/index.html">v3.13.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.12.0/index.html">v3.12.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.11.1/index.html">v3.11.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.10.0/index.html">v3.10.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.9.0/index.html">v3.9.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.8.0/index.html">v3.8.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.7.0/index.html">v3.7.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.6.0/index.html">v3.6.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.5.4/index.html">v3.5.4</a></li>
-      <li><a class="reference external" href="../../index/../../v3.5.3/index.html">v3.5.3</a></li>
       <li><a class="reference external" href="../../index/../../v3.4.1/index.html">v3.4.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.3.1/index.html">v3.3.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.2.0/index.html">v3.2.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.1.0/index.html">v3.1.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.0.0/index.html">v3.0.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.99.1/index.html">v2.99.1</a></li>
-      <li><a class="reference external" href="../../index/../../v2.99.0/index.html">v2.99.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.98.2/index.html">v2.98.2</a></li>
       <li><a class="reference external" href="../../index/../../v2.97.0/index.html">v2.97.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.96.0/index.html">v2.96.0</a></li>
@@ -194,7 +202,7 @@
         <li class="right" >
           <a href="../plot.html" title="2D Plot"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >GUI User Guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Specialized Tools</a></li> 
       </ul>

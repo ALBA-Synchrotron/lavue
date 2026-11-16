@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lavuelib.filewriter &#8212; LaVue  documentation</title>
+    <title>lavuelib.filewriter &#8212; LaVue 3.16.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=ffd7f65b" />
     
-    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -29,7 +29,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.filewriter</a></li> 
       </ul>
@@ -136,6 +136,28 @@
         <span class="k">with</span> <span class="n">writerlock</span><span class="p">:</span>
             <span class="n">wr</span> <span class="o">=</span> <span class="n">writer</span>
     <span class="n">fl</span> <span class="o">=</span> <span class="n">wr</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="o">**</span><span class="n">pars</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fl</span><span class="p">,</span> <span class="s2">&quot;writer&quot;</span><span class="p">):</span>
+        <span class="n">fl</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">wr</span>
+    <span class="k">return</span> <span class="n">fl</span></div>
+
+
+
+<div class="viewcode-block" id="memory_file">
+<a class="viewcode-back" href="../../develop/lavuelib/lavuelib.html#lavuelib.filewriter.memory_file">[docs]</a>
+<span class="k">def</span> <span class="nf">memory_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">pars</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; create a new file</span>
+
+<span class="sd">    :param filename: file name</span>
+<span class="sd">    :type filename: :obj:`str`</span>
+<span class="sd">    :returns: file object</span>
+<span class="sd">    :rtype: :class:`FTFile`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;writer&#39;</span> <span class="ow">in</span> <span class="n">pars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="n">pars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;writer&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">writerlock</span><span class="p">:</span>
+            <span class="n">wr</span> <span class="o">=</span> <span class="n">writer</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">wr</span><span class="o">.</span><span class="n">memory_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">pars</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fl</span><span class="p">,</span> <span class="s2">&quot;writer&quot;</span><span class="p">):</span>
         <span class="n">fl</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">wr</span>
     <span class="k">return</span> <span class="n">fl</span></div>
@@ -1054,6 +1076,30 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
+<div class="viewcode-block" id="FTField.write_chunk">
+<a class="viewcode-back" href="../../develop/lavuelib/lavuelib.html#lavuelib.filewriter.FTField.write_chunk">[docs]</a>
+    <span class="k">def</span> <span class="nf">write_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; write the field chunk value</span>
+
+<span class="sd">        :param o: h5 object</span>
+<span class="sd">        :type o: :obj:`any`</span>
+<span class="sd">        :param offset: chunk offset</span>
+<span class="sd">        :type offset: :obj:`list` &lt; :obj:`int` &gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="FTField.read_chunk">
+<a class="viewcode-back" href="../../develop/lavuelib/lavuelib.html#lavuelib.filewriter.FTField.read_chunk">[docs]</a>
+    <span class="k">def</span> <span class="nf">read_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; read the field chunk value</span>
+
+<span class="sd">        :param offset: chunk offset</span>
+<span class="sd">        :type offset: :obj:`list` &lt; :obj:`int` &gt;</span>
+<span class="sd">        :returns: h5 object</span>
+<span class="sd">        :rtype: :obj:`any`</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; set value</span>
 
@@ -1479,18 +1525,24 @@
       <li><a class="reference external" href="../../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../../index/../../v3.16.0/index.html">v3.16.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.15.0/index.html">v3.15.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.14.0/index.html">v3.14.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.13.1/index.html">v3.13.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.12.0/index.html">v3.12.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.11.1/index.html">v3.11.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.10.0/index.html">v3.10.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.9.0/index.html">v3.9.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.8.0/index.html">v3.8.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.7.0/index.html">v3.7.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.6.0/index.html">v3.6.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.5.4/index.html">v3.5.4</a></li>
-      <li><a class="reference external" href="../../index/../../v3.5.3/index.html">v3.5.3</a></li>
       <li><a class="reference external" href="../../index/../../v3.4.1/index.html">v3.4.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.3.1/index.html">v3.3.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.2.0/index.html">v3.2.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.1.0/index.html">v3.1.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.0.0/index.html">v3.0.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.99.1/index.html">v2.99.1</a></li>
-      <li><a class="reference external" href="../../index/../../v2.99.0/index.html">v2.99.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.98.2/index.html">v2.98.2</a></li>
       <li><a class="reference external" href="../../index/../../v2.97.0/index.html">v2.97.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.96.0/index.html">v2.96.0</a></li>
@@ -1536,7 +1588,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.filewriter</a></li> 
       </ul>

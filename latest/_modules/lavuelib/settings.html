@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lavuelib.settings &#8212; LaVue  documentation</title>
+    <title>lavuelib.settings &#8212; LaVue 3.16.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=ffd7f65b" />
     
-    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -29,7 +29,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.settings</a></li> 
       </ul>
@@ -81,12 +81,13 @@
     <span class="n">unicode</span> <span class="o">=</span> <span class="nb">str</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;pyFAI&quot;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pyFAI</span>
     <span class="c1">#: (:obj:`bool`) pyFAI imported</span>
-    <span class="n">PYFAI</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">PYFAI</span> <span class="o">=</span> <span class="p">(</span><span class="n">pyFAI</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span>
+             <span class="o">+</span> <span class="n">pyFAI</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="c1">#: (:obj:`bool`) pyFAI imported</span>
-    <span class="n">PYFAI</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">PYFAI</span> <span class="o">=</span> <span class="mf">0.0</span>
 
 
 <div class="viewcode-block" id="Settings">
@@ -288,6 +289,8 @@
 
         <span class="c1">#: (:obj:`str`) triggered events</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents</span> <span class="o">=</span> <span class="s2">&quot;internal&quot;</span>
+        <span class="c1">#: (:obj:`str`) current triggered events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents_current</span> <span class="o">=</span> <span class="s2">&quot;internal&quot;</span>
 
         <span class="c1">#: (:obj:`str`) json list with overflow color</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">overflowcolor</span> <span class="o">=</span> <span class="s2">&quot;[255, 255, 255]&quot;</span>
@@ -487,8 +490,10 @@
         <span class="n">qstval</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="s2">&quot;Configuration/TriggeredEvents&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">qstval</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;internal&quot;</span><span class="p">,</span> <span class="s2">&quot;some&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents</span> <span class="o">=</span> <span class="n">qstval</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents_current</span> <span class="o">=</span> <span class="n">qstval</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents</span> <span class="o">=</span> <span class="s2">&quot;internal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">triggeredevents_current</span> <span class="o">=</span> <span class="s2">&quot;internal&quot;</span>
         <span class="n">qstval</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">value</span><span class="p">(</span>
             <span class="s2">&quot;Configuration/ShowSubtraction&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">qstval</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
@@ -1063,18 +1068,32 @@
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="kn">from</span> <span class="nn">pyFAI.azimuthalIntegrator</span> \
                             <span class="kn">import</span> <span class="nn">AzimuthalIntegrator</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">ai</span> <span class="o">=</span> <span class="n">AzimuthalIntegrator</span><span class="p">(</span>
-                        <span class="n">dist</span><span class="o">=</span><span class="n">detdistance</span><span class="p">,</span>
-                        <span class="n">poni1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi1</span><span class="p">,</span>
-                        <span class="n">poni2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi2</span><span class="p">,</span>
-                        <span class="n">rot1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot1</span><span class="p">,</span>
-                        <span class="n">rot2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot2</span><span class="p">,</span>
-                        <span class="n">rot3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot3</span><span class="p">,</span>
-                        <span class="n">pixel1</span><span class="o">=</span><span class="n">pixel1</span><span class="p">,</span>
-                        <span class="n">pixel2</span><span class="o">=</span><span class="n">pixel2</span><span class="p">,</span>
-                        <span class="n">splineFile</span><span class="o">=</span><span class="n">splineFile</span><span class="p">,</span>
-                        <span class="n">detector</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
-                        <span class="n">wavelength</span><span class="o">=</span><span class="n">wvln</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">PYFAI</span> <span class="o">&gt;</span> <span class="mf">2025.09</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ai</span> <span class="o">=</span> <span class="n">AzimuthalIntegrator</span><span class="p">(</span>
+                            <span class="n">dist</span><span class="o">=</span><span class="n">detdistance</span><span class="p">,</span>
+                            <span class="n">poni1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi1</span><span class="p">,</span>
+                            <span class="n">poni2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi2</span><span class="p">,</span>
+                            <span class="n">rot1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot1</span><span class="p">,</span>
+                            <span class="n">rot2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot2</span><span class="p">,</span>
+                            <span class="n">rot3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot3</span><span class="p">,</span>
+                            <span class="n">pixel1</span><span class="o">=</span><span class="n">pixel1</span><span class="p">,</span>
+                            <span class="n">pixel2</span><span class="o">=</span><span class="n">pixel2</span><span class="p">,</span>
+                            <span class="n">splinefile</span><span class="o">=</span><span class="n">splineFile</span><span class="p">,</span>
+                            <span class="n">detector</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
+                            <span class="n">wavelength</span><span class="o">=</span><span class="n">wvln</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ai</span> <span class="o">=</span> <span class="n">AzimuthalIntegrator</span><span class="p">(</span>
+                            <span class="n">dist</span><span class="o">=</span><span class="n">detdistance</span><span class="p">,</span>
+                            <span class="n">poni1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi1</span><span class="p">,</span>
+                            <span class="n">poni2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detponi2</span><span class="p">,</span>
+                            <span class="n">rot1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot1</span><span class="p">,</span>
+                            <span class="n">rot2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot2</span><span class="p">,</span>
+                            <span class="n">rot3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detrot3</span><span class="p">,</span>
+                            <span class="n">pixel1</span><span class="o">=</span><span class="n">pixel1</span><span class="p">,</span>
+                            <span class="n">pixel2</span><span class="o">=</span><span class="n">pixel2</span><span class="p">,</span>
+                            <span class="n">splineFile</span><span class="o">=</span><span class="n">splineFile</span><span class="p">,</span>
+                            <span class="n">detector</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
+                            <span class="n">wavelength</span><span class="o">=</span><span class="n">wvln</span><span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">detponi1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">detponi2</span> \
                        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">centerx</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span><span class="p">:</span>
                         <span class="n">aif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">getFit2D</span><span class="p">()</span>
@@ -1740,16 +1759,23 @@
         <span class="k">if</span> <span class="n">PYFAI</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QMutexLocker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aimutex</span><span class="p">):</span>
                 <span class="n">aic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">get_pixel2</span><span class="p">(),</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">get_pixel1</span><span class="p">(),</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detponi1</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;poni1&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detponi2</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;poni2&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detrot1</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;rot1&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detrot2</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;rot2&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detrot3</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;rot3&quot;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">detsplinefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">splineFile</span>
+            <span class="k">if</span> <span class="n">PYFAI</span> <span class="o">&gt;</span> <span class="mf">2025.09</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">detsplinefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">splinefile</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">pixel1</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">pixel2</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">detsplinefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">splineFile</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">get_pixel1</span><span class="p">(),</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixelsizex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2um</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">get_pixel2</span><span class="p">(),</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detname</span> <span class="o">=</span> <span class="n">aic</span><span class="p">[</span><span class="s2">&quot;detector&quot;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detdistance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance2mm</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">aic</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">],</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
@@ -1944,18 +1970,24 @@
       <li><a class="reference external" href="../../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../../index/../../v3.16.0/index.html">v3.16.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.15.0/index.html">v3.15.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.14.0/index.html">v3.14.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.13.1/index.html">v3.13.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.12.0/index.html">v3.12.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.11.1/index.html">v3.11.1</a></li>
+      <li><a class="reference external" href="../../index/../../v3.10.0/index.html">v3.10.0</a></li>
+      <li><a class="reference external" href="../../index/../../v3.9.0/index.html">v3.9.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.8.0/index.html">v3.8.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.7.0/index.html">v3.7.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.6.0/index.html">v3.6.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.5.4/index.html">v3.5.4</a></li>
-      <li><a class="reference external" href="../../index/../../v3.5.3/index.html">v3.5.3</a></li>
       <li><a class="reference external" href="../../index/../../v3.4.1/index.html">v3.4.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.3.1/index.html">v3.3.1</a></li>
       <li><a class="reference external" href="../../index/../../v3.2.0/index.html">v3.2.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.1.0/index.html">v3.1.0</a></li>
       <li><a class="reference external" href="../../index/../../v3.0.0/index.html">v3.0.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.99.1/index.html">v2.99.1</a></li>
-      <li><a class="reference external" href="../../index/../../v2.99.0/index.html">v2.99.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.98.2/index.html">v2.98.2</a></li>
       <li><a class="reference external" href="../../index/../../v2.97.0/index.html">v2.97.0</a></li>
       <li><a class="reference external" href="../../index/../../v2.96.0/index.html">v2.96.0</a></li>
@@ -2001,7 +2033,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LaVue 3.16.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">lavuelib.settings</a></li> 
       </ul>
